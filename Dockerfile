@@ -23,11 +23,11 @@ RUN apt-get -y install \
 RUN rm -rf /var/www/html && \
     git clone --depth 1 -b 2.6.5 https://github.com/billz/raspap-webgui /var/www/html
 
-#RUN awk "{gsub(\"/REPLACE_ME\",\"/var/www/html\")}1" /var/www/html/config/50-raspap-router.conf > /tmp/50-raspap-router.conf && \
-#    mv /tmp/50-raspap-router.conf /etc/lighttpd/conf-available/
+RUN awk "{gsub(\"/REPLACE_ME\",\"\")}1" /var/www/html/config/50-raspap-router.conf > /tmp/50-raspap-router.conf && \
+    mv /tmp/50-raspap-router.conf /etc/lighttpd/conf-available/
 
 RUN lighttpd-enable-mod fastcgi-php && \
-#    ln -s /etc/lighttpd/conf-available/50-raspap-router.conf /etc/lighttpd/conf-enabled/50-raspap-router.conf && \
+    ln -s /etc/lighttpd/conf-available/50-raspap-router.conf /etc/lighttpd/conf-enabled/50-raspap-router.conf && \
     /etc/init.d/lighttpd restart
 
 RUN cp /var/www/html/installers/raspap.sudoers /etc/sudoers.d/090_raspap
